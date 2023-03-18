@@ -1,0 +1,73 @@
+$usrId = Read-Host "Enter employees username (fistName.lastName)"
+$oldPWord = Get-ADUser -Identity $usrID -Properties * | select extensionAttribute3
+$Credentials = Get-Credential -Credential ([System.Security.Principal.WindowsIdentity]::GetCurrent().Name)
+
+# Verify employee in Active Directory
+Write-Host "Verifying User is in Active Directory..." -ForegroundColor DarkGreen
+Start-Sleep -Seconds 3
+
+function verifyEmp {
+    # If user exists, output User has been verified
+    if (Get-ADUser -identity $usrId){
+        Write-Host("Successfully verified user in Active Directory") -ForegroundColor Green
+        Start-Sleep -Seconds 2
+    }
+    # If user does not exist, output error and exit script
+    else {
+        Write-Host("Failed to find user in Active Directory, script will now exit.") -ForegroundColor Red
+        Start-Sleep -Seconds 5
+        Exit
+    }
+}
+verifyEmp
+
+# Pull Users extensionAttribute3 from Active Directory and save it as $usrAttribute
+Write-Host "Pulling password from extensionAttribute3" -ForegroundColor DarkGreen
+Start-Sleep -Seconds 3
+
+function getAttribute {
+    if (Get-ADUser -identity $usrId -properties * | select extensionAttribute3) {
+        Write-Host ("Successfully pulled password from extensionAttribute3") -ForegroundColor Green
+        Start-Sleep -Seconds 2
+    }
+    else {
+        Write-Host ("Failed to pull password from extensionAttribute3, script will now exit.")
+        Start-Sleep -Seconds 5
+        Exit
+    }
+}
+getAttribute
+
+# Remove extra characters left by System.Object, and convert to string
+Write-Host "Cleaning up extensionAttribute3" -ForegroundColor DarkGreen
+Start-Sleep -Seconds 3
+
+function cleanPasswd {
+    if ($newPWord = $oldPWord.extensionAttribute3) {
+        Write-Host ("Successfully cleaned extensionAttribute3") -ForegroundColor Green
+        Start-Sleep -Seconds 2
+    }
+    else {
+        Write-Host ("Failed to clean extensionAttribute3, script will now exit.")
+        Start-Sleep -Seconds 5
+        Exit
+    }      
+}
+cleanPassWd
+
+# Reset Users password using $newPasswd
+Write-Host "Completing password reset" -ForegroundColor DarkGreen
+Start-Sleep -Seconds 3
+
+function SetPassword { 
+    Try {
+        Set-ADAccountPassword -Identity $usrId -Credential $Credentials -Reset -NewPassword (ConvertTo-SecureString -AsPlainText $oldPWord.extensionAttribute3 -Force)
+        [System.Windows.MessageBox]::Show('Password Changed','Password Changed','OK')
+}
+Catch {
+
+    [System.Windows.Forms.MessageBox]::Show("ErrorMessage: " + $Error[0] , "Error Changing Password" , 4)
+
+    }   
+}
+SetPassword
