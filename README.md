@@ -1,5 +1,5 @@
 # PS-PasswordReset
-TL:DR - PowerShell script for resetting passwords, written for a clients specific password requirements.
+TL:DR - PowerShell script for resetting AD passwords, written for a clients specific password requirements.
 
 This script was created for the purpose of assisting Tier 1 Agents in resetting user passwords for a specific client.
 This client created user passwords based off three parameters specific to the user.
