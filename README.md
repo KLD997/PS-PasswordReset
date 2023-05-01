@@ -17,7 +17,7 @@ Ex. CompanyA >
              Users > 
                      Employees > 
                                  Sites > 
-                                         OHA > 
+                                         Site > 
                                                Users > 
 
 6. Open user Properties
@@ -37,5 +37,5 @@ Steps required with script
 
 
 
-For Tier 1 Agent unfamiliar with AD, this cut passwsord reset times down from 8-13 minutes to 1-2 minutes! (A 700% decrease from 14 minutes to 2 minutes)
-This time percentage does not account for the time saved training new Agents, which also was drastically lowered.
+For Tier 1 Agent unfamiliar with AD, this could potentially cut passwsord reset times down from 8-13 minutes to 1-2 minutes! (A 700% decrease from 14 minutes to 2 minutes)
+This time percentage does not account for the time potentially saved training new Agents, which can also be drastically lowered.
